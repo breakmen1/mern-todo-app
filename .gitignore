@@ -21,3 +21,13 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Swap/backup files
+*.swp
+
+# System files
+.DS_Store
+
+# Logs
+*.log
+logs/
