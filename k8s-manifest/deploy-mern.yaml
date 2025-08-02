@@ -1,0 +1,45 @@
+
+---
+- name: Deploy MERN stack to Kubernetes
+  hosts: localhost
+  gather_facts: true
+
+  vars_files:
+  - vault.yml
+
+  vars:
+    ansible_python_interpreter: /root/.venv/k8s-ansible/bin/python
+
+  tasks:
+
+    - name: Render Mongo Secret YAML using Vault
+      ansible.builtin.template:
+        src: templates/mongo-secret.yaml.j2
+        dest: /tmp/mongo-secret.yaml
+
+    - name: Render Backend Secret YAML using Vault
+      ansible.builtin.template:
+        src: templates/backend-secret.yaml.j2
+        dest: /tmp/backend-secret.yaml
+
+    - name: Deploy Mongo Secret
+      kubernetes.core.k8s:
+        state: present
+        src: /tmp/mongo-secret.yaml
+
+    - name: Deploy Backend Secret
+      kubernetes.core.k8s:
+        state: present
+        src: /tmp/backend-secret.yaml
+
+    - name: Apply all YAMLs (excluding unwanted files)
+      shell: |
+        for file in $(ls *.yaml); do
+          if [[ "$file" != "deploy-mern.yaml" && "$file" != "inventory.yaml" && "$file" != "mongo-secret.yaml" && "$file" != "backend-secret.yaml" && "$file" != *cloudflared*.deb ]]; then
+            echo "Applying $file..."
+            kubectl apply -f $file  
+          fi
+        done
+      args:
+        executable: /bin/bash
+
