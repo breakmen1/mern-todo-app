@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,9 +13,13 @@ spec:
       labels:
         app: backend
     spec:
+      initContainers:
+        - name: wait-for-mongo
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mongo 27017; do echo waiting for mongo; sleep 2; done;']
       containers:
         - name: backend
-          image: akshaykumar0007/mern-todo-back:v4
+          image: akshaykumar0007/mern-todo-back:v4  # Updated image tag
           ports:
             - containerPort: 8000
           envFrom:
@@ -24,4 +27,14 @@ spec:
                 name: backend-config
             - secretRef:
                 name: backend-secret
+          readinessProbe:  # Health check
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 2
+
 
