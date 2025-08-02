@@ -19,7 +19,7 @@ spec:
           command: ['sh', '-c', 'until nc -z mongo 27017; do echo waiting for mongo; sleep 2; done;']
       containers:
         - name: backend
-          image: akshaykumar0007/mern-todo-back:v4  # Updated image tag
+          image: akshaykumar0007/mern-todo-back:v5  # Updated image tag
           ports:
             - containerPort: 8000
           envFrom:
