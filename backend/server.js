@@ -38,6 +38,11 @@ app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);
 app.use("/api/forgotPassword", forgotPasswordRouter);
 
+//health checks
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Optional root test route
 app.get("/", (req, res) => {
   res.send("Backend API is running!");
