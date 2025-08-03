@@ -1,0 +1,24 @@
+
+# Dependency directories
+node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS files
+.DS_Store
+
+# Environment files
+.env
+.env.*   # ignores .env.production etc.
+
+# Git-related
+.git
+.gitignore
+
+# Build output
+build
+

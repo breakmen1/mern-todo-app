@@ -1,3 +1,4 @@
+
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -10,12 +11,12 @@ import forgotPasswordRouter from "./routes/forgotPassword.js";
 // App config
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 8001;
+const port = process.env.PORT || 8000;
 mongoose.set("strictQuery", true);
 
 // CORS setup (Add this before any routes)
 app.use(cors({
-  origin: "http://192.168.1.25:3000",  
+        origin: "*",
   credentials: true
 }));
 
@@ -37,6 +38,11 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);
 app.use("/api/forgotPassword", forgotPasswordRouter);
+
+//Health check
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 // Optional root test route
 app.get("/", (req, res) => {

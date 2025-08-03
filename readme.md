@@ -1,4 +1,4 @@
-# Installation
+# Installation on your machine
 Run the following command to clone the repository
 ```
 git clone https://github.com/alokyadav1/mern-todo-app.git

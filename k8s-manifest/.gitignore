@@ -1,0 +1,24 @@
+
+# Ignore Vim swap files
+*.swp
+
+# Ignore backup files
+*~
+
+# Ignore OS files
+.DS_Store
+
+# Ignore cloudflared binary (if not needed in repo)
+cloudflared-linux-amd64.deb
+
+# Ignore Kubernetes secrets (optional, safer to store outside Git or use SealedSecrets)
+backend-secret.yaml
+mongo-secret.yaml
+
+# Ignore kube configs if added later
+kubeconfig
+.kube/
+
+# Ignore any logs
+*.log
+
